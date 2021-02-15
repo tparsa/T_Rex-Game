@@ -1,6 +1,11 @@
 import pygame
 import random
 import ctypes
+
+
+IMAGES_DIR = "assets/images/"
+SOUNDS_DIR = "assets/sounds/"
+
 pygame.init()
 pygame.mixer.init()
 
@@ -11,32 +16,32 @@ pygame.display.set_caption("Dino game")
 
 c = pygame.time.Clock()
 
-bg = pygame.image.load("backm.jpg")
+bg = pygame.image.load(IMAGES_DIR + "backm.jpg")
 bgx = 0
 bgx2 = 1350
 bg = pygame.transform.scale(bg , (1350,1400))
-night_bg = pygame.image.load("night_back.jpg")
+night_bg = pygame.image.load(IMAGES_DIR + "night_back.jpg")
 night_bg = pygame.transform.scale(night_bg, (1350,1400))
 bgn = 0
 bgn2 = 1350
 
 white= (255,255,255)
 
-walk = [pygame.image.load("dinom1.png"),pygame.image.load("dinom2.png")]
+walk = [pygame.image.load(IMAGES_DIR + "dinom1.png"), pygame.image.load(IMAGES_DIR + "dinom2.png")]
 
-tree1 = pygame.image.load("treem1.png")
-tree2 = pygame.image.load("treem2.png")
-tree3 = pygame.image.load("treem3.png")
-tree4 = pygame.image.load("treem4.png")
-tree5 = pygame.image.load("treem5.png")
+tree1 = pygame.image.load(IMAGES_DIR + "treem1.png")
+tree2 = pygame.image.load(IMAGES_DIR + "treem2.png")
+tree3 = pygame.image.load(IMAGES_DIR + "treem3.png")
+tree4 = pygame.image.load(IMAGES_DIR + "treem4.png")
+tree5 = pygame.image.load(IMAGES_DIR + "treem5.png")
 
-dino1 = pygame.image.load("dinom1.png")
-dino2 = pygame.image.load("dinom2.png")
-stand = pygame.image.load("dinom3.png")
-gameOver_dino = pygame.image.load("dinom4.png")
-sattled = [pygame.image.load("dinom5.png"),pygame.image.load("dinom6.png")]
-birds = [pygame.image.load("bird1.png"),pygame.image.load("bird2.png")]
-birds_night = [pygame.image.load("bird1(night).png"),pygame.image.load("bird2(night).png")]
+dino1 = pygame.image.load(IMAGES_DIR + "dinom1.png")
+dino2 = pygame.image.load(IMAGES_DIR + "dinom2.png")
+stand = pygame.image.load(IMAGES_DIR + "dinom3.png")
+gameOver_dino = pygame.image.load(IMAGES_DIR + "dinom4.png")
+sattled = [pygame.image.load(IMAGES_DIR + "dinom5.png"), pygame.image.load(IMAGES_DIR + "dinom6.png")]
+birds = [pygame.image.load(IMAGES_DIR + "bird1.png"), pygame.image.load(IMAGES_DIR + "bird2.png")]
+birds_night = [pygame.image.load(IMAGES_DIR + "bird1(night).png"), pygame.image.load(IMAGES_DIR + "bird2(night).png")]
 
 class T_Rex():
     def __init__(self, x, y, width, height):
@@ -81,7 +86,6 @@ class T_Rex():
             screen.blit(stand , (self.x,self.y)) 
             self.right = False
             self.down = False
-            #self.hitbox = (self.x, self.y, 80, 85)
         
         font = pygame.font.Font(None, 30)
         self.total = self.count + self.count1 + self.count2
@@ -129,7 +133,7 @@ class Tree():
         if  (self.x + 80< dino.x + 80 and dino.x + 80 < self.x + 230 and dino.y -40 + 85 > self.y) or (self.x + 850 < dino.x + 80 and dino.x + 80 < self.x + 980 and dino.y -40 + 85 > self.y) or (self.x + 1220 < dino.x + 80 and dino.x + 80 < self.x + 1320 and dino.y -40 + 85 > self.y) or (self.x + 1500 < dino.x + 80 and dino.x + 80 < self.x + 1530 and dino.y -70 + 85 > self.y):
             
             if dino.total < 205:
-                die = pygame.mixer.music.load("die.mp3")
+                die = pygame.mixer.music.load(SOUNDS_DIR + "die.ogg")
                 pygame.mixer.music.play(1, (0.0))
                 dino.back_moving = False
                 dino.right = False
@@ -143,7 +147,7 @@ class Tree():
                 screen.blit(game_over_txt, (610, 80))
                 pygame.mixer.music.stop()   
             elif dino.total > 205:
-                die = pygame.mixer.music.load("die.mp3")
+                die = pygame.mixer.music.load(IMAGES_DIR + "die.ogg")
                 pygame.mixer.music.play(1, (0.0))
                 dino.night_moving = False
                 run = False
@@ -174,7 +178,6 @@ class Bird():
         if self.left:
             screen.blit(birds[int(self.birdCount)//5], (self.x, self.y))
             self.birdCount += 1
-        #pygame.draw.rect(screen, (255,0,0), (self.x, self.y,63,60),2 )
         
         if self.x< -1350 :
             self.x = 1350 
@@ -222,13 +225,6 @@ dino = T_Rex(200, 282, 1350, 400)
 tree = Tree(0,280,93,87)
 bird = Bird(1350, 250)
 
-# def start_again():
-#     while True:
-#         for event in pygame.event.get():
-#             if event.type == pygame.K_ESCAPE and event.type == pygame.K_DOWN:
-#                 return False
-#             if event.type == pygame.K_SPACE and event.type == pygame.K_UP :
-#                 return True
 
 run = True
 while run :
@@ -263,7 +259,7 @@ while run :
             dino.down = False
         if not(dino.isJump):
             if keys[pygame.K_SPACE] or keys[pygame.K_UP] :
-                sound_jump = pygame.mixer.music.load("jump.mp3")
+                sound_jump = pygame.mixer.music.load(SOUNDS_DIR + "jump.ogg")
                 pygame.mixer.music.play(1, (0.0))
                 dino.count1 += 1
                 dino.isJump = True
